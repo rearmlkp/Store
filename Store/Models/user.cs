@@ -18,7 +18,8 @@ namespace Store.Models
         public user()
         {
             this.order = new HashSet<order>();
-            this.pendingproduct = new HashSet<pendingproduct>();
+            this.reparingproduct = new HashSet<reparingproduct>();
+            this.soldproduct = new HashSet<soldproduct>();
             this.usercomment = new HashSet<usercomment>();
         }
     
@@ -32,7 +33,9 @@ namespace Store.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<order> order { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<pendingproduct> pendingproduct { get; set; }
+        public virtual ICollection<reparingproduct> reparingproduct { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<soldproduct> soldproduct { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<usercomment> usercomment { get; set; }
     }

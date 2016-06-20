@@ -17,8 +17,9 @@ namespace Store.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public producttype()
         {
-            this.pendingproduct = new HashSet<pendingproduct>();
             this.product = new HashSet<product>();
+            this.reparingproduct = new HashSet<reparingproduct>();
+            this.soldproduct = new HashSet<soldproduct>();
         }
     
         public int idProductType { get; set; }
@@ -26,8 +27,10 @@ namespace Store.Models
         public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<pendingproduct> pendingproduct { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<product> product { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<reparingproduct> reparingproduct { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<soldproduct> soldproduct { get; set; }
     }
 }

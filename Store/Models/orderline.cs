@@ -14,8 +14,8 @@ namespace Store.Models
     
     public partial class orderline
     {
-        public int Order_idOrder { get; set; }
-        public int Product_idProduct { get; set; }
+        public int idOrder { get; set; }
+        public int idProduct { get; set; }
         public int idSpecialOffer { get; set; }
         public int Quantity { get; set; }
     

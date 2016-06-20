@@ -21,9 +21,10 @@ namespace Store.Models
         }
     
         public int idOrder { get; set; }
-        public string User_username { get; set; }
-        public int PaymentType_idPaymentType { get; set; }
+        public string username { get; set; }
+        public int idPaymentType { get; set; }
         public System.DateTime OrderDate { get; set; }
+        public int OrderStatus { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<orderline> orderline { get; set; }

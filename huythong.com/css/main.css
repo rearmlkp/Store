@@ -1,0 +1,356 @@
+
+body{
+	font: normal 16px Ubuntu;
+    color: #2a343a;
+    line-height: 1.56;
+
+}
+/* header */
+.main-logo .navbar-brand{
+	font-weight:500; 
+	font-size:25px;
+}
+.top-header .container{
+	padding-bottom: 10px;
+}
+.top-header .search-area {
+	margin-top:5px;	
+}
+.top-header form{
+	border: 1px solid #e7e8ea;
+	border-radius: 2px ;
+}
+[class*="material-icons-"]:before {
+    font-family: 'Material Icons';
+    font-weight: 400;
+    font-style: normal;
+    font-size: inherit;
+    content:"\e547";
+    font-size:40px;
+ }
+ .header-card{
+ 	float:right;
+ 	margin-right:100px;
+ }
+ .card-text{
+ 	display:inline-block;
+ 	width:50px;
+ }
+.top-header form:before{
+    position: absolute;
+    left: 16px;
+    top: 4px;
+    content: "\e8b6";
+    font-size: 24px;
+    font-family: Material Icons;
+    color: #1fd5bd;
+    margin-left:5px;
+ }
+ #search-field {
+    border: none;
+    height: 43px;
+    line-height: 43px;
+    width: 100%;
+    font-weight: 300;
+    font-size: 20px;
+    padding-left: 50px;
+    color: #868c90;
+ }
+ 
+
+ .custom-header span{
+ 	vertical-align: baseline;
+ 	font-size: 25px;
+ 	margin: 0 20px;
+ }
+ .custom-header p{
+ 	display:inline-block;
+ }
+
+ .header-social{
+ 	float:right;
+ 	max-width:200px;
+ 	margin-right:50px;
+ 	padding-top:10px;
+ }
+ .header-social li{
+ 	list-style:none;
+ 	display:inline-block;
+ }
+.header-social li a i{
+	font-size: 35px;
+}
+.header-social li {
+	margin: 0 10px;
+}
+.main-nav{
+	height: 66px;
+	z-index: 999;
+	background: #2a343a;
+	transition: all 0.4s ease-in-out;
+}
+/* End header */ 
+
+/* Home Main Tab */
+.main {
+	margin:0;
+	padding:0;
+}
+.navbar-brand h3{
+	line-height: 1.42;
+    color: #fff;
+    background: #1fd5bd;
+    font-size: 25px;
+    margin: 10px 0 0;
+    padding: 10px 25px 11px;
+    height: 56px;
+    border-radius: 2px 2px 0 0;
+    text-align: center;
+
+
+}
+.scheme-1 a{
+	color: #1fd5bd;
+    text-decoration: none;
+    -webkit-transition: background 0.3s ease-in-out,border-color 0.3s ease-in-out,color 0.3s ease-in-out;
+    -moz-transition: background 0.3s ease-in-out,border-color 0.3s ease-in-out,color 0.3s ease-in-out;
+    transition: background 0.3s ease-in-out,border-color 0.3s ease-in-out,color 0.3s ease-in-out;
+}
+.menu{
+	z-index:999;
+	float:right;
+	padding-right:20px;
+	margin:0;
+	padding:0;
+}
+.menu-item:hover{
+	background-color: #1fd5bd;
+}
+.menu-item{
+	list-style:none;
+	float:left;
+	padding: 0 ;
+}
+.menu-item a{
+	padding: 20px 0;
+	text-decoration: none;
+	margin: 0 19px 0;
+	height:66px;
+	line-height: 66px;
+	text-transform: uppercase;
+	font-weight: 700;
+	letter-spacing: 0.64px; 
+	color:#fff;
+}
+.nav-btn{
+	display:none;
+}
+.main-content {
+	height:80%;
+	overflow-x: hidden;
+}
+
+.main-content .sidebar{
+	/*width:250px; */
+
+	height:100%;
+	margin-right:0;
+	float:left;
+	background-color: #eee;
+	transition: transform 0.4s ease-in-out;
+	padding:0;
+
+}
+.main-content .sidebar h2{
+	text-align: center;
+	color:#b3b3b3;
+	padding:10px 5px;
+	background-color: #444;
+	font-weight: 500px
+}
+.main-content .sidebar ul li{
+	font-size: 25px;
+	text-align: left;
+	transition: border 0.5s;
+	padding-left:20px;
+	font-weight: 300px;
+	/*transition: all 0.3s */
+	/*transition-property: border; 
+	transition-duration: 0.3s; */
+
+}
+.main-content .sidebar ul li:hover {
+	background-color: #444;
+	border-left: 10px solid #2a2a2a;
+	outline: #555;
+}
+.main-content .sidebar ul{
+	list-style-type: none;
+	padding:0;
+}
+.toggle-button{
+	background-color:#eee;
+	margin:10px 5px;
+	cursor: pointer;
+	float:left;
+	position: absolute;
+	
+
+}
+.bar1, .bar2, .bar3{
+	width: 35px;
+	height: 5px;
+	background-color: #444;
+	margin: 6px 0;
+	transition: 0.4s;
+
+}
+/* Class abrir to translate to left and right*/
+.abrir{
+	transform: translate3d(-250px,0,0);
+	transition: transform 0.4s ease-in-out;
+}
+/* End Sidebar 
+
+/* Product View content */
+.product-view {
+	float:left;
+	margin-top:20px;
+	margin-bottom:30px;
+}
+.product-view img{
+	width:100%;
+	height:100%;
+}
+.product-view .card-text{
+	width:100%;
+}
+
+/* End product View content */
+
+
+/* End main tab */
+
+/* Footer */
+.footer-contact{
+	padding: 20px 50px;
+}
+.footer-contact li{
+	list-style-type: none;
+}
+.footer-contact li a{
+	text-decoration: none;
+	display:inline;
+	vertical-align: top;
+	color: #1fd5bd;
+	font-size: 18px;
+	font-weight: 500;
+	font-family:monospace;
+
+}
+.footer-contact li i{
+	color: #1fd5bd;
+	margin-right:5px;
+	font-size:25px;
+}
+footer{
+	background: #2a343a;
+	transition: all 0.4s ease-in-out;
+}
+/* End footer */
+
+/* Animate */
+@media only screen and (max-width: 1200px){
+	.main-logo .navbar-brand{
+		font-size:20px;
+		float:left;
+		padding-left:0;
+		padding-right:0;
+	}
+	.header-card{
+		margin-right:50px;
+	}
+	.custom-header{ 
+		padding:0;
+	 }
+	.custom-header span{
+		font-size: 19px;
+		margin-right:5px;
+		font-weight: 500px;
+	}
+
+}
+@media only screen and (max-width: 768px){
+	.menu{
+		display:none;
+	}
+	.nav-btn:before{
+		content:"Menu";
+	}
+	.nav-btn:hover{
+		color: #1fd5bd;
+	}
+	.nav-btn{
+		display:block;
+		text-decoration: none;
+		margin: 0 25px 0;
+		height:66px;
+		line-height: 66px;
+		text-transform: uppercase;
+		font-weight: 700;
+		letter-spacing: 0.64px; 
+		color:#fff;
+		list-style: none;
+		cursor: pointer;
+		float:right;
+		margin-right: 10px;
+	}
+	.menu{
+		width:60%;
+		background-color: #2a343a;
+		float:right;
+		margin-right:-15px;
+	}
+	.menu-item{
+		float:none;
+		width:100%;
+	}
+
+	.search-area{
+		float:left;
+		width:50%;
+	}
+	.header-card{
+		float:left;
+		margin-right:0;
+	}
+}
+@media only screen and (max-width:500px){
+	.main-logo{
+		width:100%;
+		display:inline-block;
+	}
+	.main-logo .navbar-brand{
+
+	font-weight:500; 
+	font-size:30px;
+	width:100%;
+	}
+	.header-card, hr{
+		width:80%;
+		margin-left:10px;
+	}
+	.custom-header span{
+		display:inline-block;
+		font-size: 17px;
+	}
+	.header-social{
+		text-align: center;
+		float:left;
+		padding-left: 15px;
+	}
+	.search-area{
+		width:100%;
+	}
+}
+/* End Animate */

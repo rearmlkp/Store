@@ -28,9 +28,10 @@ namespace Store.Models
         public virtual DbSet<order> order { get; set; }
         public virtual DbSet<orderline> orderline { get; set; }
         public virtual DbSet<paymenttype> paymenttype { get; set; }
-        public virtual DbSet<pendingproduct> pendingproduct { get; set; }
         public virtual DbSet<product> product { get; set; }
         public virtual DbSet<producttype> producttype { get; set; }
+        public virtual DbSet<reparingproduct> reparingproduct { get; set; }
+        public virtual DbSet<soldproduct> soldproduct { get; set; }
         public virtual DbSet<specialoffer> specialoffer { get; set; }
         public virtual DbSet<user> user { get; set; }
         public virtual DbSet<usercomment> usercomment { get; set; }

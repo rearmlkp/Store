@@ -10,17 +10,18 @@
             <PropertyRef Name="idOrder" />
           </Key>
           <Property Name="idOrder" Type="int" Nullable="false" />
-          <Property Name="User_username" Type="varchar" MaxLength="45" Nullable="false" />
-          <Property Name="PaymentType_idPaymentType" Type="int" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="idPaymentType" Type="int" Nullable="false" />
           <Property Name="OrderDate" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="OrderStatus" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="orderline">
           <Key>
-            <PropertyRef Name="Order_idOrder" />
-            <PropertyRef Name="Product_idProduct" />
+            <PropertyRef Name="idOrder" />
+            <PropertyRef Name="idProduct" />
           </Key>
-          <Property Name="Order_idOrder" Type="int" Nullable="false" />
-          <Property Name="Product_idProduct" Type="int" Nullable="false" />
+          <Property Name="idOrder" Type="int" Nullable="false" />
+          <Property Name="idProduct" Type="int" Nullable="false" />
           <Property Name="idSpecialOffer" Type="int" Nullable="false" />
           <Property Name="Quantity" Type="int" Nullable="false" />
         </EntityType>
@@ -31,19 +32,6 @@
           <Property Name="idPaymentType" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TypeName" Type="varchar" MaxLength="45" Nullable="false" />
           <Property Name="Description" Type="varchar" MaxLength="255" />
-        </EntityType>
-        <EntityType Name="pendingproduct">
-          <Key>
-            <PropertyRef Name="idPendingProduct" />
-          </Key>
-          <Property Name="idPendingProduct" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="username" Type="varchar" MaxLength="45" Nullable="false" />
-          <Property Name="idProductType" Type="int" Nullable="false" />
-          <Property Name="PendingProductName" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="Description" Type="varchar" MaxLength="255" />
-          <Property Name="Quantity" Type="int" Nullable="false" />
-          <Property Name="ImagePath" Type="varchar" MaxLength="255" />
-          <Property Name="Status" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="product">
           <Key>
@@ -64,6 +52,33 @@
           <Property Name="idProductType" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TypeName" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Description" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="reparingproduct">
+          <Key>
+            <PropertyRef Name="idReparingProduct" />
+          </Key>
+          <Property Name="idReparingProduct" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="idProductType" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+          <Property Name="ImagePath" Type="varchar" MaxLength="255" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="RepairedPrice" Type="float" Nullable="false" />
+          <Property Name="RepairedDate" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="soldproduct">
+          <Key>
+            <PropertyRef Name="idSoldProduct" />
+          </Key>
+          <Property Name="idSoldProduct" Type="int" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="idProductType" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+          <Property Name="ImagePath" Type="varchar" MaxLength="255" />
+          <Property Name="SoldPrice" Type="float" Nullable="false" />
+          <Property Name="SoldDate" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="specialoffer">
           <Key>
@@ -92,6 +107,7 @@
           <Property Name="username" Type="varchar" MaxLength="45" Nullable="false" />
           <Property Name="idProduct" Type="int" Nullable="false" />
           <Property Name="Comment" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="AddTime" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <Association Name="fk_Order_has_Product_Order1">
           <End Role="order" Type="Self.order" Multiplicity="1">
@@ -103,7 +119,7 @@
               <PropertyRef Name="idOrder" />
             </Principal>
             <Dependent Role="orderline">
-              <PropertyRef Name="Order_idOrder" />
+              <PropertyRef Name="idOrder" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -117,7 +133,7 @@
               <PropertyRef Name="idProduct" />
             </Principal>
             <Dependent Role="orderline">
-              <PropertyRef Name="Product_idProduct" />
+              <PropertyRef Name="idProduct" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -131,7 +147,7 @@
               <PropertyRef Name="idPaymentType" />
             </Principal>
             <Dependent Role="order">
-              <PropertyRef Name="PaymentType_idPaymentType" />
+              <PropertyRef Name="idPaymentType" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -145,7 +161,7 @@
               <PropertyRef Name="username" />
             </Principal>
             <Dependent Role="order">
-              <PropertyRef Name="User_username" />
+              <PropertyRef Name="username" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -165,24 +181,48 @@
         </Association>
         <Association Name="fk_PendingProduct_ProductType1">
           <End Role="producttype" Type="Self.producttype" Multiplicity="1" />
-          <End Role="pendingproduct" Type="Self.pendingproduct" Multiplicity="*" />
+          <End Role="reparingproduct" Type="Self.reparingproduct" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="producttype">
               <PropertyRef Name="idProductType" />
             </Principal>
-            <Dependent Role="pendingproduct">
+            <Dependent Role="reparingproduct">
+              <PropertyRef Name="idProductType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PendingProduct_ProductType2">
+          <End Role="producttype" Type="Self.producttype" Multiplicity="1" />
+          <End Role="soldproduct" Type="Self.soldproduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="producttype">
+              <PropertyRef Name="idProductType" />
+            </Principal>
+            <Dependent Role="soldproduct">
               <PropertyRef Name="idProductType" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_PendingProduct_User1">
           <End Role="user" Type="Self.user" Multiplicity="1" />
-          <End Role="pendingproduct" Type="Self.pendingproduct" Multiplicity="*" />
+          <End Role="reparingproduct" Type="Self.reparingproduct" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="user">
               <PropertyRef Name="username" />
             </Principal>
-            <Dependent Role="pendingproduct">
+            <Dependent Role="reparingproduct">
+              <PropertyRef Name="username" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PendingProduct_User2">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="soldproduct" Type="Self.soldproduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="username" />
+            </Principal>
+            <Dependent Role="soldproduct">
               <PropertyRef Name="username" />
             </Dependent>
           </ReferentialConstraint>
@@ -227,9 +267,10 @@
           <EntitySet Name="order" EntityType="Self.order" Schema="storedb" store:Type="Tables" />
           <EntitySet Name="orderline" EntityType="Self.orderline" Schema="storedb" store:Type="Tables" />
           <EntitySet Name="paymenttype" EntityType="Self.paymenttype" Schema="storedb" store:Type="Tables" />
-          <EntitySet Name="pendingproduct" EntityType="Self.pendingproduct" Schema="storedb" store:Type="Tables" />
           <EntitySet Name="product" EntityType="Self.product" Schema="storedb" store:Type="Tables" />
           <EntitySet Name="producttype" EntityType="Self.producttype" Schema="storedb" store:Type="Tables" />
+          <EntitySet Name="reparingproduct" EntityType="Self.reparingproduct" Schema="storedb" store:Type="Tables" />
+          <EntitySet Name="soldproduct" EntityType="Self.soldproduct" Schema="storedb" store:Type="Tables" />
           <EntitySet Name="specialoffer" EntityType="Self.specialoffer" Schema="storedb" store:Type="Tables" />
           <EntitySet Name="user" EntityType="Self.user" Schema="storedb" store:Type="Tables" />
           <EntitySet Name="usercomment" EntityType="Self.usercomment" Schema="storedb" store:Type="Tables" />
@@ -255,11 +296,19 @@
           </AssociationSet>
           <AssociationSet Name="fk_PendingProduct_ProductType1" Association="Self.fk_PendingProduct_ProductType1">
             <End Role="producttype" EntitySet="producttype" />
-            <End Role="pendingproduct" EntitySet="pendingproduct" />
+            <End Role="reparingproduct" EntitySet="reparingproduct" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PendingProduct_ProductType2" Association="Self.fk_PendingProduct_ProductType2">
+            <End Role="producttype" EntitySet="producttype" />
+            <End Role="soldproduct" EntitySet="soldproduct" />
           </AssociationSet>
           <AssociationSet Name="fk_PendingProduct_User1" Association="Self.fk_PendingProduct_User1">
             <End Role="user" EntitySet="user" />
-            <End Role="pendingproduct" EntitySet="pendingproduct" />
+            <End Role="reparingproduct" EntitySet="reparingproduct" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PendingProduct_User2" Association="Self.fk_PendingProduct_User2">
+            <End Role="user" EntitySet="user" />
+            <End Role="soldproduct" EntitySet="soldproduct" />
           </AssociationSet>
           <AssociationSet Name="fk_Product_ProductType" Association="Self.fk_Product_ProductType">
             <End Role="producttype" EntitySet="producttype" />
@@ -284,20 +333,21 @@
             <PropertyRef Name="idOrder" />
           </Key>
           <Property Name="idOrder" Type="Int32" Nullable="false" />
-          <Property Name="User_username" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="PaymentType_idPaymentType" Type="Int32" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idPaymentType" Type="Int32" Nullable="false" />
           <Property Name="OrderDate" Type="DateTime" Nullable="false" />
+          <Property Name="OrderStatus" Type="Int32" Nullable="false" />
           <NavigationProperty Name="orderline" Relationship="Self.fk_Order_has_Product_Order1" FromRole="order" ToRole="orderline" />
           <NavigationProperty Name="paymenttype" Relationship="Self.fk_Order_PaymentType1" FromRole="order" ToRole="paymenttype" />
           <NavigationProperty Name="user" Relationship="Self.fk_Order_User1" FromRole="order" ToRole="user" />
         </EntityType>
         <EntityType Name="orderline">
           <Key>
-            <PropertyRef Name="Order_idOrder" />
-            <PropertyRef Name="Product_idProduct" />
+            <PropertyRef Name="idOrder" />
+            <PropertyRef Name="idProduct" />
           </Key>
-          <Property Name="Order_idOrder" Type="Int32" Nullable="false" />
-          <Property Name="Product_idProduct" Type="Int32" Nullable="false" />
+          <Property Name="idOrder" Type="Int32" Nullable="false" />
+          <Property Name="idProduct" Type="Int32" Nullable="false" />
           <Property Name="idSpecialOffer" Type="Int32" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
           <NavigationProperty Name="order" Relationship="Self.fk_Order_has_Product_Order1" FromRole="orderline" ToRole="order" />
@@ -312,21 +362,6 @@
           <Property Name="TypeName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="order" Relationship="Self.fk_Order_PaymentType1" FromRole="paymenttype" ToRole="order" />
-        </EntityType>
-        <EntityType Name="pendingproduct">
-          <Key>
-            <PropertyRef Name="idPendingProduct" />
-          </Key>
-          <Property Name="idPendingProduct" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="username" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="idProductType" Type="Int32" Nullable="false" />
-          <Property Name="PendingProductName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="ImagePath" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="producttype" Relationship="Self.fk_PendingProduct_ProductType1" FromRole="pendingproduct" ToRole="producttype" />
-          <NavigationProperty Name="user" Relationship="Self.fk_PendingProduct_User1" FromRole="pendingproduct" ToRole="user" />
         </EntityType>
         <EntityType Name="product">
           <Key>
@@ -350,8 +385,40 @@
           <Property Name="idProductType" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TypeName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="pendingproduct" Relationship="Self.fk_PendingProduct_ProductType1" FromRole="producttype" ToRole="pendingproduct" />
           <NavigationProperty Name="product" Relationship="Self.fk_Product_ProductType" FromRole="producttype" ToRole="product" />
+          <NavigationProperty Name="reparingproduct" Relationship="Self.fk_PendingProduct_ProductType1" FromRole="producttype" ToRole="reparingproduct" />
+          <NavigationProperty Name="soldproduct" Relationship="Self.fk_PendingProduct_ProductType2" FromRole="producttype" ToRole="soldproduct" />
+        </EntityType>
+        <EntityType Name="reparingproduct">
+          <Key>
+            <PropertyRef Name="idReparingProduct" />
+          </Key>
+          <Property Name="idReparingProduct" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idProductType" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ImagePath" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="RepairedPrice" Type="Single" Nullable="false" />
+          <Property Name="RepairedDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="producttype" Relationship="Self.fk_PendingProduct_ProductType1" FromRole="reparingproduct" ToRole="producttype" />
+          <NavigationProperty Name="user" Relationship="Self.fk_PendingProduct_User1" FromRole="reparingproduct" ToRole="user" />
+        </EntityType>
+        <EntityType Name="soldproduct">
+          <Key>
+            <PropertyRef Name="idSoldProduct" />
+          </Key>
+          <Property Name="idSoldProduct" Type="Int32" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idProductType" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ImagePath" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="SoldPrice" Type="Single" Nullable="false" />
+          <Property Name="SoldDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="producttype" Relationship="Self.fk_PendingProduct_ProductType2" FromRole="soldproduct" ToRole="producttype" />
+          <NavigationProperty Name="user" Relationship="Self.fk_PendingProduct_User2" FromRole="soldproduct" ToRole="user" />
         </EntityType>
         <EntityType Name="specialoffer">
           <Key>
@@ -373,7 +440,8 @@
           <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="order" Relationship="Self.fk_Order_User1" FromRole="user" ToRole="order" />
-          <NavigationProperty Name="pendingproduct" Relationship="Self.fk_PendingProduct_User1" FromRole="user" ToRole="pendingproduct" />
+          <NavigationProperty Name="reparingproduct" Relationship="Self.fk_PendingProduct_User1" FromRole="user" ToRole="reparingproduct" />
+          <NavigationProperty Name="soldproduct" Relationship="Self.fk_PendingProduct_User2" FromRole="user" ToRole="soldproduct" />
           <NavigationProperty Name="usercomment" Relationship="Self.fk_User_has_Product_User1" FromRole="user" ToRole="usercomment" />
         </EntityType>
         <EntityType Name="usercomment">
@@ -384,6 +452,7 @@
           <Property Name="username" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="idProduct" Type="Int32" Nullable="false" />
           <Property Name="Comment" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AddTime" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="product" Relationship="Self.fk_User_has_Product_Product1" FromRole="usercomment" ToRole="product" />
           <NavigationProperty Name="user" Relationship="Self.fk_User_has_Product_User1" FromRole="usercomment" ToRole="user" />
         </EntityType>
@@ -397,7 +466,7 @@
               <PropertyRef Name="idOrder" />
             </Principal>
             <Dependent Role="orderline">
-              <PropertyRef Name="Order_idOrder" />
+              <PropertyRef Name="idOrder" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -411,7 +480,7 @@
               <PropertyRef Name="idPaymentType" />
             </Principal>
             <Dependent Role="order">
-              <PropertyRef Name="PaymentType_idPaymentType" />
+              <PropertyRef Name="idPaymentType" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -425,7 +494,7 @@
               <PropertyRef Name="username" />
             </Principal>
             <Dependent Role="order">
-              <PropertyRef Name="User_username" />
+              <PropertyRef Name="username" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -439,7 +508,7 @@
               <PropertyRef Name="idProduct" />
             </Principal>
             <Dependent Role="orderline">
-              <PropertyRef Name="Product_idProduct" />
+              <PropertyRef Name="idProduct" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -454,30 +523,6 @@
             </Principal>
             <Dependent Role="orderline">
               <PropertyRef Name="idSpecialOffer" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_PendingProduct_ProductType1">
-          <End Role="producttype" Type="Self.producttype" Multiplicity="1" />
-          <End Role="pendingproduct" Type="Self.pendingproduct" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="producttype">
-              <PropertyRef Name="idProductType" />
-            </Principal>
-            <Dependent Role="pendingproduct">
-              <PropertyRef Name="idProductType" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_PendingProduct_User1">
-          <End Role="user" Type="Self.user" Multiplicity="1" />
-          <End Role="pendingproduct" Type="Self.pendingproduct" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="user">
-              <PropertyRef Name="username" />
-            </Principal>
-            <Dependent Role="pendingproduct">
-              <PropertyRef Name="username" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -505,6 +550,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_PendingProduct_ProductType1">
+          <End Role="producttype" Type="Self.producttype" Multiplicity="1" />
+          <End Role="reparingproduct" Type="Self.reparingproduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="producttype">
+              <PropertyRef Name="idProductType" />
+            </Principal>
+            <Dependent Role="reparingproduct">
+              <PropertyRef Name="idProductType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PendingProduct_ProductType2">
+          <End Role="producttype" Type="Self.producttype" Multiplicity="1" />
+          <End Role="soldproduct" Type="Self.soldproduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="producttype">
+              <PropertyRef Name="idProductType" />
+            </Principal>
+            <Dependent Role="soldproduct">
+              <PropertyRef Name="idProductType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PendingProduct_User1">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="reparingproduct" Type="Self.reparingproduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="username" />
+            </Principal>
+            <Dependent Role="reparingproduct">
+              <PropertyRef Name="username" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PendingProduct_User2">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="soldproduct" Type="Self.soldproduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="username" />
+            </Principal>
+            <Dependent Role="soldproduct">
+              <PropertyRef Name="username" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_User_has_Product_User1">
           <End Role="user" Type="Self.user" Multiplicity="1" />
           <End Role="usercomment" Type="Self.usercomment" Multiplicity="*" />
@@ -521,9 +614,10 @@
           <EntitySet Name="order" EntityType="Self.order" />
           <EntitySet Name="orderline" EntityType="Self.orderline" />
           <EntitySet Name="paymenttype" EntityType="Self.paymenttype" />
-          <EntitySet Name="pendingproduct" EntityType="Self.pendingproduct" />
           <EntitySet Name="product" EntityType="Self.product" />
           <EntitySet Name="producttype" EntityType="Self.producttype" />
+          <EntitySet Name="reparingproduct" EntityType="Self.reparingproduct" />
+          <EntitySet Name="soldproduct" EntityType="Self.soldproduct" />
           <EntitySet Name="specialoffer" EntityType="Self.specialoffer" />
           <EntitySet Name="user" EntityType="Self.user" />
           <EntitySet Name="usercomment" EntityType="Self.usercomment" />
@@ -547,14 +641,6 @@
             <End Role="specialoffer" EntitySet="specialoffer" />
             <End Role="orderline" EntitySet="orderline" />
           </AssociationSet>
-          <AssociationSet Name="fk_PendingProduct_ProductType1" Association="Self.fk_PendingProduct_ProductType1">
-            <End Role="producttype" EntitySet="producttype" />
-            <End Role="pendingproduct" EntitySet="pendingproduct" />
-          </AssociationSet>
-          <AssociationSet Name="fk_PendingProduct_User1" Association="Self.fk_PendingProduct_User1">
-            <End Role="user" EntitySet="user" />
-            <End Role="pendingproduct" EntitySet="pendingproduct" />
-          </AssociationSet>
           <AssociationSet Name="fk_Product_ProductType" Association="Self.fk_Product_ProductType">
             <End Role="producttype" EntitySet="producttype" />
             <End Role="product" EntitySet="product" />
@@ -562,6 +648,22 @@
           <AssociationSet Name="fk_User_has_Product_Product1" Association="Self.fk_User_has_Product_Product1">
             <End Role="product" EntitySet="product" />
             <End Role="usercomment" EntitySet="usercomment" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PendingProduct_ProductType1" Association="Self.fk_PendingProduct_ProductType1">
+            <End Role="producttype" EntitySet="producttype" />
+            <End Role="reparingproduct" EntitySet="reparingproduct" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PendingProduct_ProductType2" Association="Self.fk_PendingProduct_ProductType2">
+            <End Role="producttype" EntitySet="producttype" />
+            <End Role="soldproduct" EntitySet="soldproduct" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PendingProduct_User1" Association="Self.fk_PendingProduct_User1">
+            <End Role="user" EntitySet="user" />
+            <End Role="reparingproduct" EntitySet="reparingproduct" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PendingProduct_User2" Association="Self.fk_PendingProduct_User2">
+            <End Role="user" EntitySet="user" />
+            <End Role="soldproduct" EntitySet="soldproduct" />
           </AssociationSet>
           <AssociationSet Name="fk_User_has_Product_User1" Association="Self.fk_User_has_Product_User1">
             <End Role="user" EntitySet="user" />
@@ -578,17 +680,18 @@
             <EntityTypeMapping TypeName="storedbModel.order">
               <MappingFragment StoreEntitySet="order">
                 <ScalarProperty Name="idOrder" ColumnName="idOrder" />
-                <ScalarProperty Name="User_username" ColumnName="User_username" />
-                <ScalarProperty Name="PaymentType_idPaymentType" ColumnName="PaymentType_idPaymentType" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="idPaymentType" ColumnName="idPaymentType" />
                 <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="orderline">
             <EntityTypeMapping TypeName="storedbModel.orderline">
               <MappingFragment StoreEntitySet="orderline">
-                <ScalarProperty Name="Order_idOrder" ColumnName="Order_idOrder" />
-                <ScalarProperty Name="Product_idProduct" ColumnName="Product_idProduct" />
+                <ScalarProperty Name="idOrder" ColumnName="idOrder" />
+                <ScalarProperty Name="idProduct" ColumnName="idProduct" />
                 <ScalarProperty Name="idSpecialOffer" ColumnName="idSpecialOffer" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
               </MappingFragment>
@@ -600,20 +703,6 @@
                 <ScalarProperty Name="idPaymentType" ColumnName="idPaymentType" />
                 <ScalarProperty Name="TypeName" ColumnName="TypeName" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="pendingproduct">
-            <EntityTypeMapping TypeName="storedbModel.pendingproduct">
-              <MappingFragment StoreEntitySet="pendingproduct">
-                <ScalarProperty Name="idPendingProduct" ColumnName="idPendingProduct" />
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="idProductType" ColumnName="idProductType" />
-                <ScalarProperty Name="PendingProductName" ColumnName="PendingProductName" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -636,6 +725,35 @@
                 <ScalarProperty Name="idProductType" ColumnName="idProductType" />
                 <ScalarProperty Name="TypeName" ColumnName="TypeName" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="reparingproduct">
+            <EntityTypeMapping TypeName="storedbModel.reparingproduct">
+              <MappingFragment StoreEntitySet="reparingproduct">
+                <ScalarProperty Name="idReparingProduct" ColumnName="idReparingProduct" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="idProductType" ColumnName="idProductType" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="RepairedPrice" ColumnName="RepairedPrice" />
+                <ScalarProperty Name="RepairedDate" ColumnName="RepairedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="soldproduct">
+            <EntityTypeMapping TypeName="storedbModel.soldproduct">
+              <MappingFragment StoreEntitySet="soldproduct">
+                <ScalarProperty Name="idSoldProduct" ColumnName="idSoldProduct" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="idProductType" ColumnName="idProductType" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="SoldPrice" ColumnName="SoldPrice" />
+                <ScalarProperty Name="SoldDate" ColumnName="SoldDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -666,6 +784,7 @@
                 <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="idProduct" ColumnName="idProduct" />
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

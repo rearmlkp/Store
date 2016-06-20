@@ -12,14 +12,18 @@ namespace Store.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class usercomment
+    public partial class soldproduct
     {
+        public int idSoldProduct { get; set; }
         public string username { get; set; }
-        public int idProduct { get; set; }
-        public string Comment { get; set; }
-        public System.DateTime AddTime { get; set; }
+        public int idProductType { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string ImagePath { get; set; }
+        public float SoldPrice { get; set; }
+        public System.DateTime SoldDate { get; set; }
     
-        public virtual product product { get; set; }
+        public virtual producttype producttype { get; set; }
         public virtual user user { get; set; }
     }
 }

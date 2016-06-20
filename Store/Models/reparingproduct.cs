@@ -12,16 +12,17 @@ namespace Store.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class pendingproduct
+    public partial class reparingproduct
     {
-        public int idPendingProduct { get; set; }
+        public int idReparingProduct { get; set; }
         public string username { get; set; }
         public int idProductType { get; set; }
-        public string PendingProductName { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
-        public int Quantity { get; set; }
         public string ImagePath { get; set; }
         public int Status { get; set; }
+        public float RepairedPrice { get; set; }
+        public System.DateTime RepairedDate { get; set; }
     
         public virtual producttype producttype { get; set; }
         public virtual user user { get; set; }
