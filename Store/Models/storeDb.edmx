@@ -1,0 +1,695 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="storedbModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="idOrder" />
+          </Key>
+          <Property Name="idOrder" Type="int" Nullable="false" />
+          <Property Name="User_username" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="PaymentType_idPaymentType" Type="int" Nullable="false" />
+          <Property Name="OrderDate" Type="datetime" Precision="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="orderline">
+          <Key>
+            <PropertyRef Name="Order_idOrder" />
+            <PropertyRef Name="Product_idProduct" />
+          </Key>
+          <Property Name="Order_idOrder" Type="int" Nullable="false" />
+          <Property Name="Product_idProduct" Type="int" Nullable="false" />
+          <Property Name="idSpecialOffer" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="paymenttype">
+          <Key>
+            <PropertyRef Name="idPaymentType" />
+          </Key>
+          <Property Name="idPaymentType" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeName" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="pendingproduct">
+          <Key>
+            <PropertyRef Name="idPendingProduct" />
+          </Key>
+          <Property Name="idPendingProduct" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="idProductType" Type="int" Nullable="false" />
+          <Property Name="PendingProductName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="ImagePath" Type="varchar" MaxLength="255" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="product">
+          <Key>
+            <PropertyRef Name="idProduct" />
+          </Key>
+          <Property Name="idProduct" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idProductType" Type="int" Nullable="false" />
+          <Property Name="ProductName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+          <Property Name="StockQuantity" Type="int" Nullable="false" />
+          <Property Name="ImagePath" Type="varchar" MaxLength="255" />
+          <Property Name="Price" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="producttype">
+          <Key>
+            <PropertyRef Name="idProductType" />
+          </Key>
+          <Property Name="idProductType" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="specialoffer">
+          <Key>
+            <PropertyRef Name="idSpecialOffer" />
+          </Key>
+          <Property Name="idSpecialOffer" Type="int" Nullable="false" />
+          <Property Name="OfferName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="username" />
+          </Key>
+          <Property Name="username" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="password" Type="binary" MaxLength="32" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="Address" Type="varchar" MaxLength="255" />
+          <Property Name="Email" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="IsAdmin" Type="bool" Nullable="false" />
+        </EntityType>
+        <EntityType Name="usercomment">
+          <Key>
+            <PropertyRef Name="username" />
+            <PropertyRef Name="idProduct" />
+          </Key>
+          <Property Name="username" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="idProduct" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_Order_has_Product_Order1">
+          <End Role="order" Type="Self.order" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="orderline" Type="Self.orderline" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order">
+              <PropertyRef Name="idOrder" />
+            </Principal>
+            <Dependent Role="orderline">
+              <PropertyRef Name="Order_idOrder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Order_has_Product_Product1">
+          <End Role="product" Type="Self.product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="orderline" Type="Self.orderline" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product">
+              <PropertyRef Name="idProduct" />
+            </Principal>
+            <Dependent Role="orderline">
+              <PropertyRef Name="Product_idProduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Order_PaymentType1">
+          <End Role="paymenttype" Type="Self.paymenttype" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paymenttype">
+              <PropertyRef Name="idPaymentType" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="PaymentType_idPaymentType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Order_User1">
+          <End Role="user" Type="Self.user" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="username" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="User_username" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_OrderLine_SpecialOffer1">
+          <End Role="specialoffer" Type="Self.specialoffer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="orderline" Type="Self.orderline" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="specialoffer">
+              <PropertyRef Name="idSpecialOffer" />
+            </Principal>
+            <Dependent Role="orderline">
+              <PropertyRef Name="idSpecialOffer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PendingProduct_ProductType1">
+          <End Role="producttype" Type="Self.producttype" Multiplicity="1" />
+          <End Role="pendingproduct" Type="Self.pendingproduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="producttype">
+              <PropertyRef Name="idProductType" />
+            </Principal>
+            <Dependent Role="pendingproduct">
+              <PropertyRef Name="idProductType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PendingProduct_User1">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="pendingproduct" Type="Self.pendingproduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="username" />
+            </Principal>
+            <Dependent Role="pendingproduct">
+              <PropertyRef Name="username" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Product_ProductType">
+          <End Role="producttype" Type="Self.producttype" Multiplicity="1" />
+          <End Role="product" Type="Self.product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="producttype">
+              <PropertyRef Name="idProductType" />
+            </Principal>
+            <Dependent Role="product">
+              <PropertyRef Name="idProductType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_User_has_Product_Product1">
+          <End Role="product" Type="Self.product" Multiplicity="1" />
+          <End Role="usercomment" Type="Self.usercomment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product">
+              <PropertyRef Name="idProduct" />
+            </Principal>
+            <Dependent Role="usercomment">
+              <PropertyRef Name="idProduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_User_has_Product_User1">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="usercomment" Type="Self.usercomment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="username" />
+            </Principal>
+            <Dependent Role="usercomment">
+              <PropertyRef Name="username" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="storedbModelStoreContainer">
+          <EntitySet Name="order" EntityType="Self.order" Schema="storedb" store:Type="Tables" />
+          <EntitySet Name="orderline" EntityType="Self.orderline" Schema="storedb" store:Type="Tables" />
+          <EntitySet Name="paymenttype" EntityType="Self.paymenttype" Schema="storedb" store:Type="Tables" />
+          <EntitySet Name="pendingproduct" EntityType="Self.pendingproduct" Schema="storedb" store:Type="Tables" />
+          <EntitySet Name="product" EntityType="Self.product" Schema="storedb" store:Type="Tables" />
+          <EntitySet Name="producttype" EntityType="Self.producttype" Schema="storedb" store:Type="Tables" />
+          <EntitySet Name="specialoffer" EntityType="Self.specialoffer" Schema="storedb" store:Type="Tables" />
+          <EntitySet Name="user" EntityType="Self.user" Schema="storedb" store:Type="Tables" />
+          <EntitySet Name="usercomment" EntityType="Self.usercomment" Schema="storedb" store:Type="Tables" />
+          <AssociationSet Name="fk_Order_has_Product_Order1" Association="Self.fk_Order_has_Product_Order1">
+            <End Role="order" EntitySet="order" />
+            <End Role="orderline" EntitySet="orderline" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Order_has_Product_Product1" Association="Self.fk_Order_has_Product_Product1">
+            <End Role="product" EntitySet="product" />
+            <End Role="orderline" EntitySet="orderline" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Order_PaymentType1" Association="Self.fk_Order_PaymentType1">
+            <End Role="paymenttype" EntitySet="paymenttype" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Order_User1" Association="Self.fk_Order_User1">
+            <End Role="user" EntitySet="user" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
+          <AssociationSet Name="fk_OrderLine_SpecialOffer1" Association="Self.fk_OrderLine_SpecialOffer1">
+            <End Role="specialoffer" EntitySet="specialoffer" />
+            <End Role="orderline" EntitySet="orderline" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PendingProduct_ProductType1" Association="Self.fk_PendingProduct_ProductType1">
+            <End Role="producttype" EntitySet="producttype" />
+            <End Role="pendingproduct" EntitySet="pendingproduct" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PendingProduct_User1" Association="Self.fk_PendingProduct_User1">
+            <End Role="user" EntitySet="user" />
+            <End Role="pendingproduct" EntitySet="pendingproduct" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Product_ProductType" Association="Self.fk_Product_ProductType">
+            <End Role="producttype" EntitySet="producttype" />
+            <End Role="product" EntitySet="product" />
+          </AssociationSet>
+          <AssociationSet Name="fk_User_has_Product_Product1" Association="Self.fk_User_has_Product_Product1">
+            <End Role="product" EntitySet="product" />
+            <End Role="usercomment" EntitySet="usercomment" />
+          </AssociationSet>
+          <AssociationSet Name="fk_User_has_Product_User1" Association="Self.fk_User_has_Product_User1">
+            <End Role="user" EntitySet="user" />
+            <End Role="usercomment" EntitySet="usercomment" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="storedbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="idOrder" />
+          </Key>
+          <Property Name="idOrder" Type="Int32" Nullable="false" />
+          <Property Name="User_username" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PaymentType_idPaymentType" Type="Int32" Nullable="false" />
+          <Property Name="OrderDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="orderline" Relationship="Self.fk_Order_has_Product_Order1" FromRole="order" ToRole="orderline" />
+          <NavigationProperty Name="paymenttype" Relationship="Self.fk_Order_PaymentType1" FromRole="order" ToRole="paymenttype" />
+          <NavigationProperty Name="user" Relationship="Self.fk_Order_User1" FromRole="order" ToRole="user" />
+        </EntityType>
+        <EntityType Name="orderline">
+          <Key>
+            <PropertyRef Name="Order_idOrder" />
+            <PropertyRef Name="Product_idProduct" />
+          </Key>
+          <Property Name="Order_idOrder" Type="Int32" Nullable="false" />
+          <Property Name="Product_idProduct" Type="Int32" Nullable="false" />
+          <Property Name="idSpecialOffer" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="order" Relationship="Self.fk_Order_has_Product_Order1" FromRole="orderline" ToRole="order" />
+          <NavigationProperty Name="product" Relationship="Self.fk_Order_has_Product_Product1" FromRole="orderline" ToRole="product" />
+          <NavigationProperty Name="specialoffer" Relationship="Self.fk_OrderLine_SpecialOffer1" FromRole="orderline" ToRole="specialoffer" />
+        </EntityType>
+        <EntityType Name="paymenttype">
+          <Key>
+            <PropertyRef Name="idPaymentType" />
+          </Key>
+          <Property Name="idPaymentType" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="order" Relationship="Self.fk_Order_PaymentType1" FromRole="paymenttype" ToRole="order" />
+        </EntityType>
+        <EntityType Name="pendingproduct">
+          <Key>
+            <PropertyRef Name="idPendingProduct" />
+          </Key>
+          <Property Name="idPendingProduct" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idProductType" Type="Int32" Nullable="false" />
+          <Property Name="PendingProductName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="ImagePath" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="producttype" Relationship="Self.fk_PendingProduct_ProductType1" FromRole="pendingproduct" ToRole="producttype" />
+          <NavigationProperty Name="user" Relationship="Self.fk_PendingProduct_User1" FromRole="pendingproduct" ToRole="user" />
+        </EntityType>
+        <EntityType Name="product">
+          <Key>
+            <PropertyRef Name="idProduct" />
+          </Key>
+          <Property Name="idProduct" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idProductType" Type="Int32" Nullable="false" />
+          <Property Name="ProductName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="StockQuantity" Type="Int32" Nullable="false" />
+          <Property Name="ImagePath" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="Single" Nullable="false" />
+          <NavigationProperty Name="orderline" Relationship="Self.fk_Order_has_Product_Product1" FromRole="product" ToRole="orderline" />
+          <NavigationProperty Name="producttype" Relationship="Self.fk_Product_ProductType" FromRole="product" ToRole="producttype" />
+          <NavigationProperty Name="usercomment" Relationship="Self.fk_User_has_Product_Product1" FromRole="product" ToRole="usercomment" />
+        </EntityType>
+        <EntityType Name="producttype">
+          <Key>
+            <PropertyRef Name="idProductType" />
+          </Key>
+          <Property Name="idProductType" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="pendingproduct" Relationship="Self.fk_PendingProduct_ProductType1" FromRole="producttype" ToRole="pendingproduct" />
+          <NavigationProperty Name="product" Relationship="Self.fk_Product_ProductType" FromRole="producttype" ToRole="product" />
+        </EntityType>
+        <EntityType Name="specialoffer">
+          <Key>
+            <PropertyRef Name="idSpecialOffer" />
+          </Key>
+          <Property Name="idSpecialOffer" Type="Int32" Nullable="false" />
+          <Property Name="OfferName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="orderline" Relationship="Self.fk_OrderLine_SpecialOffer1" FromRole="specialoffer" ToRole="orderline" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="username" />
+          </Key>
+          <Property Name="username" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="order" Relationship="Self.fk_Order_User1" FromRole="user" ToRole="order" />
+          <NavigationProperty Name="pendingproduct" Relationship="Self.fk_PendingProduct_User1" FromRole="user" ToRole="pendingproduct" />
+          <NavigationProperty Name="usercomment" Relationship="Self.fk_User_has_Product_User1" FromRole="user" ToRole="usercomment" />
+        </EntityType>
+        <EntityType Name="usercomment">
+          <Key>
+            <PropertyRef Name="username" />
+            <PropertyRef Name="idProduct" />
+          </Key>
+          <Property Name="username" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idProduct" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="product" Relationship="Self.fk_User_has_Product_Product1" FromRole="usercomment" ToRole="product" />
+          <NavigationProperty Name="user" Relationship="Self.fk_User_has_Product_User1" FromRole="usercomment" ToRole="user" />
+        </EntityType>
+        <Association Name="fk_Order_has_Product_Order1">
+          <End Role="order" Type="Self.order" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="orderline" Type="Self.orderline" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order">
+              <PropertyRef Name="idOrder" />
+            </Principal>
+            <Dependent Role="orderline">
+              <PropertyRef Name="Order_idOrder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Order_PaymentType1">
+          <End Role="paymenttype" Type="Self.paymenttype" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paymenttype">
+              <PropertyRef Name="idPaymentType" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="PaymentType_idPaymentType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Order_User1">
+          <End Role="user" Type="Self.user" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="username" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="User_username" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Order_has_Product_Product1">
+          <End Role="product" Type="Self.product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="orderline" Type="Self.orderline" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product">
+              <PropertyRef Name="idProduct" />
+            </Principal>
+            <Dependent Role="orderline">
+              <PropertyRef Name="Product_idProduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_OrderLine_SpecialOffer1">
+          <End Role="specialoffer" Type="Self.specialoffer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="orderline" Type="Self.orderline" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="specialoffer">
+              <PropertyRef Name="idSpecialOffer" />
+            </Principal>
+            <Dependent Role="orderline">
+              <PropertyRef Name="idSpecialOffer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PendingProduct_ProductType1">
+          <End Role="producttype" Type="Self.producttype" Multiplicity="1" />
+          <End Role="pendingproduct" Type="Self.pendingproduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="producttype">
+              <PropertyRef Name="idProductType" />
+            </Principal>
+            <Dependent Role="pendingproduct">
+              <PropertyRef Name="idProductType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PendingProduct_User1">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="pendingproduct" Type="Self.pendingproduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="username" />
+            </Principal>
+            <Dependent Role="pendingproduct">
+              <PropertyRef Name="username" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Product_ProductType">
+          <End Role="producttype" Type="Self.producttype" Multiplicity="1" />
+          <End Role="product" Type="Self.product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="producttype">
+              <PropertyRef Name="idProductType" />
+            </Principal>
+            <Dependent Role="product">
+              <PropertyRef Name="idProductType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_User_has_Product_Product1">
+          <End Role="product" Type="Self.product" Multiplicity="1" />
+          <End Role="usercomment" Type="Self.usercomment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product">
+              <PropertyRef Name="idProduct" />
+            </Principal>
+            <Dependent Role="usercomment">
+              <PropertyRef Name="idProduct" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_User_has_Product_User1">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="usercomment" Type="Self.usercomment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="username" />
+            </Principal>
+            <Dependent Role="usercomment">
+              <PropertyRef Name="username" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="storedbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="order" EntityType="Self.order" />
+          <EntitySet Name="orderline" EntityType="Self.orderline" />
+          <EntitySet Name="paymenttype" EntityType="Self.paymenttype" />
+          <EntitySet Name="pendingproduct" EntityType="Self.pendingproduct" />
+          <EntitySet Name="product" EntityType="Self.product" />
+          <EntitySet Name="producttype" EntityType="Self.producttype" />
+          <EntitySet Name="specialoffer" EntityType="Self.specialoffer" />
+          <EntitySet Name="user" EntityType="Self.user" />
+          <EntitySet Name="usercomment" EntityType="Self.usercomment" />
+          <AssociationSet Name="fk_Order_has_Product_Order1" Association="Self.fk_Order_has_Product_Order1">
+            <End Role="order" EntitySet="order" />
+            <End Role="orderline" EntitySet="orderline" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Order_PaymentType1" Association="Self.fk_Order_PaymentType1">
+            <End Role="paymenttype" EntitySet="paymenttype" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Order_User1" Association="Self.fk_Order_User1">
+            <End Role="user" EntitySet="user" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Order_has_Product_Product1" Association="Self.fk_Order_has_Product_Product1">
+            <End Role="product" EntitySet="product" />
+            <End Role="orderline" EntitySet="orderline" />
+          </AssociationSet>
+          <AssociationSet Name="fk_OrderLine_SpecialOffer1" Association="Self.fk_OrderLine_SpecialOffer1">
+            <End Role="specialoffer" EntitySet="specialoffer" />
+            <End Role="orderline" EntitySet="orderline" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PendingProduct_ProductType1" Association="Self.fk_PendingProduct_ProductType1">
+            <End Role="producttype" EntitySet="producttype" />
+            <End Role="pendingproduct" EntitySet="pendingproduct" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PendingProduct_User1" Association="Self.fk_PendingProduct_User1">
+            <End Role="user" EntitySet="user" />
+            <End Role="pendingproduct" EntitySet="pendingproduct" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Product_ProductType" Association="Self.fk_Product_ProductType">
+            <End Role="producttype" EntitySet="producttype" />
+            <End Role="product" EntitySet="product" />
+          </AssociationSet>
+          <AssociationSet Name="fk_User_has_Product_Product1" Association="Self.fk_User_has_Product_Product1">
+            <End Role="product" EntitySet="product" />
+            <End Role="usercomment" EntitySet="usercomment" />
+          </AssociationSet>
+          <AssociationSet Name="fk_User_has_Product_User1" Association="Self.fk_User_has_Product_User1">
+            <End Role="user" EntitySet="user" />
+            <End Role="usercomment" EntitySet="usercomment" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="storedbModelStoreContainer" CdmEntityContainer="storedbEntities">
+          <EntitySetMapping Name="order">
+            <EntityTypeMapping TypeName="storedbModel.order">
+              <MappingFragment StoreEntitySet="order">
+                <ScalarProperty Name="idOrder" ColumnName="idOrder" />
+                <ScalarProperty Name="User_username" ColumnName="User_username" />
+                <ScalarProperty Name="PaymentType_idPaymentType" ColumnName="PaymentType_idPaymentType" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orderline">
+            <EntityTypeMapping TypeName="storedbModel.orderline">
+              <MappingFragment StoreEntitySet="orderline">
+                <ScalarProperty Name="Order_idOrder" ColumnName="Order_idOrder" />
+                <ScalarProperty Name="Product_idProduct" ColumnName="Product_idProduct" />
+                <ScalarProperty Name="idSpecialOffer" ColumnName="idSpecialOffer" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="paymenttype">
+            <EntityTypeMapping TypeName="storedbModel.paymenttype">
+              <MappingFragment StoreEntitySet="paymenttype">
+                <ScalarProperty Name="idPaymentType" ColumnName="idPaymentType" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="pendingproduct">
+            <EntityTypeMapping TypeName="storedbModel.pendingproduct">
+              <MappingFragment StoreEntitySet="pendingproduct">
+                <ScalarProperty Name="idPendingProduct" ColumnName="idPendingProduct" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="idProductType" ColumnName="idProductType" />
+                <ScalarProperty Name="PendingProductName" ColumnName="PendingProductName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="product">
+            <EntityTypeMapping TypeName="storedbModel.product">
+              <MappingFragment StoreEntitySet="product">
+                <ScalarProperty Name="idProduct" ColumnName="idProduct" />
+                <ScalarProperty Name="idProductType" ColumnName="idProductType" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StockQuantity" ColumnName="StockQuantity" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="producttype">
+            <EntityTypeMapping TypeName="storedbModel.producttype">
+              <MappingFragment StoreEntitySet="producttype">
+                <ScalarProperty Name="idProductType" ColumnName="idProductType" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="specialoffer">
+            <EntityTypeMapping TypeName="storedbModel.specialoffer">
+              <MappingFragment StoreEntitySet="specialoffer">
+                <ScalarProperty Name="idSpecialOffer" ColumnName="idSpecialOffer" />
+                <ScalarProperty Name="OfferName" ColumnName="OfferName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user">
+            <EntityTypeMapping TypeName="storedbModel.user">
+              <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usercomment">
+            <EntityTypeMapping TypeName="storedbModel.usercomment">
+              <MappingFragment StoreEntitySet="usercomment">
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="idProduct" ColumnName="idProduct" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

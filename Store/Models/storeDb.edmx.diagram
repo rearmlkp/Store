@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c76587aa94434db68115716631e9b022" Name="Diagram1">
+        <EntityTypeShape EntityType="storedbModel.order" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="storedbModel.orderline" Width="1.5" PointX="8.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="storedbModel.paymenttype" Width="1.5" PointX="0.75" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="storedbModel.pendingproduct" Width="1.5" PointX="6" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="storedbModel.product" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="storedbModel.producttype" Width="1.5" PointX="1.5" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="storedbModel.specialoffer" Width="1.5" PointX="6" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="storedbModel.user" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="storedbModel.usercomment" Width="1.5" PointX="3" PointY="2.125" IsExpanded="true" />
+        <AssociationConnector Association="storedbModel.fk_Order_has_Product_Order1" ManuallyRouted="false" />
+        <AssociationConnector Association="storedbModel.fk_Order_PaymentType1" ManuallyRouted="false" />
+        <AssociationConnector Association="storedbModel.fk_Order_User1" ManuallyRouted="false" />
+        <AssociationConnector Association="storedbModel.fk_Order_has_Product_Product1" ManuallyRouted="false" />
+        <AssociationConnector Association="storedbModel.fk_OrderLine_SpecialOffer1" ManuallyRouted="false" />
+        <AssociationConnector Association="storedbModel.fk_PendingProduct_ProductType1" ManuallyRouted="false" />
+        <AssociationConnector Association="storedbModel.fk_PendingProduct_User1" ManuallyRouted="false" />
+        <AssociationConnector Association="storedbModel.fk_Product_ProductType" ManuallyRouted="false" />
+        <AssociationConnector Association="storedbModel.fk_User_has_Product_Product1" ManuallyRouted="false" />
+        <AssociationConnector Association="storedbModel.fk_User_has_Product_User1" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
