@@ -20,5 +20,12 @@ namespace Store.Controllers
             if (listUser.Count == 0) return false;
             return true;
         }
+
+        public static bool checkEmailAlready(string email)
+        {
+            List<user> listUser = db.user.Where(r => (r.Email == email)).ToList();
+            if (listUser.Count == 0) return true;
+            return false;
+        }
     }
 }
